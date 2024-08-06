@@ -1,21 +1,24 @@
 #!/bin/bash
 
+#declare the source file where we will check
 source_file="/var/log/auth_log.log"
+#declare the destination file where we will copy the lines  with suspicious words
 destination_file="suspicious_activity.log"
 
-# Check if the file exists
+# Check if the file exists and create file if it does not exists
 if [[ ! -f "$destination_file" ]]; then
   touch "$destination_file"
 fi
 
-
+#words that are suspicious in the log file
 keywords=("failed" "invalid" "error" "pam" "unauthorized" "failure")
 
+#use while loop to read each line
 while read -r line; do
-	for word in "${keywords[@]}"; do
-		if echo "$line" | grep -qi "$word"; then
-			echo "$line" >> "$destination_file"
-			continue 2
+	for word in "${keywords[@]}"; do #check each word in the list
+		if echo "$line" | grep -qi "$word"; then # check for each word in line ignoring case
+			echo "$line" >> "$destination_file" #copy the line with suspicious word to our file
+			continue 2 #move to next line if any word is found to avoid copying same line twice
 		fi
 	done
 
