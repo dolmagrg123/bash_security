@@ -1,3 +1,0 @@
-# run the script daily
-
-32 01 * * * /home/ubuntu/bash_security/analyze_suspicious.sh >> /home/ubuntu/bash_security/cron_log.log
